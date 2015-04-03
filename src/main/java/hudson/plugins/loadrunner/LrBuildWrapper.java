@@ -1,4 +1,5 @@
-package com.mappy.jenkins.perf.mappyjenkinsperf;
+package hudson.plugins.loadrunner;
+
 
 import hudson.Launcher;
 import hudson.model.*;

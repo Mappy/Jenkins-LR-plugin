@@ -1,4 +1,4 @@
-package com.mappy.jenkins.perf.mappyjenkinsperf.results;
+package hudson.plugins.loadrunner.results;
 
 import hudson.model.Action;
 import hudson.model.AbstractBuild;
@@ -7,9 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.apache.tools.ant.types.resources.comparators.Exists;
-
-import com.mappy.jenkins.perf.mappyjenkinsperf.PluginImpl;
+import hudson.plugins.loadrunner.PluginImpl;
 
 public class LrResultTable implements Action, Serializable {
 	

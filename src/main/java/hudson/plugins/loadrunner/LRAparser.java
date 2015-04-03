@@ -1,4 +1,4 @@
-package com.mappy.jenkins.perf.mappyjenkinsperf;
+package hudson.plugins.loadrunner;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,7 +13,7 @@ import hudson.model.AbstractBuild;
 import hudson.model.Action;
 import hudson.model.BuildListener;
 
-import com.mappy.jenkins.perf.mappyjenkinsperf.results.*;
+import hudson.plugins.loadrunner.results.*;
 
 
 

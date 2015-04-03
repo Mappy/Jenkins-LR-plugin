@@ -1,0 +1,14 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+        xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:local="local">
+      <div style="width:650px;">
+        <h2>${from.displayName}</h2>
+		<j:set var="relativeUrlPath" value="${from.urlName}/"/>
+      	<div>
+      		<img src="${relativeUrlPath}respTimeGraph" alt="No Response Time Graph Available : ${relativeUrlPath}respTimeGraph"/>
+      		<h4>---</h4>
+      	</div>
+      	<div>
+      		<img src="${relativeUrlPath}errorRateGraph" alt="No Error Rate Graph Available : ${relativeUrlPath}errorRateGraph"/>
+      	</div>
+      </div>
+</j:jelly>

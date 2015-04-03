@@ -1,4 +1,5 @@
-package com.mappy.jenkins.perf.mappyjenkinsperf;
+package hudson.plugins.loadrunner;
+
 
 import hudson.EnvVars;
 import hudson.Extension;
@@ -19,7 +20,7 @@ import org.kohsuke.stapler.StaplerRequest;
 
 //import MappyJenkinsPerfBuilder.DescriptorImpl;
 
-import com.mappy.jenkins.perf.mappyjenkinsperf.results.LrResultTable;
+import hudson.plugins.loadrunner.results.LrResultTable;
 
 
 

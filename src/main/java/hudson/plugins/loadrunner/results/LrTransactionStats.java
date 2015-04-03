@@ -1,6 +1,5 @@
-package com.mappy.jenkins.perf.mappyjenkinsperf.results;
+package hudson.plugins.loadrunner.results;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 public class LrTransactionStats {

@@ -1,6 +1,5 @@
-package com.mappy.jenkins.perf.mappyjenkinsperf;
+package hudson.plugins.loadrunner;
 
-import hudson.EnvVars;
 import hudson.model.AbstractBuild;
 import hudson.model.Action;
 import hudson.model.BuildListener;
@@ -13,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-
-import com.mappy.jenkins.perf.mappyjenkinsperf.results.LrResultTable;
 
 public class LrTestExecutor implements Action {
 	

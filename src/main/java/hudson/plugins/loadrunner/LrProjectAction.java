@@ -1,44 +1,35 @@
-package com.mappy.jenkins.perf.mappyjenkinsperf;
+package hudson.plugins.loadrunner;
 
 
 import java.io.IOException;
 
 
 
-import hudson.Extension;
 import hudson.model.AbstractBuild;
 import hudson.model.Action;
 import hudson.model.BuildListener;
 import hudson.model.ProminentProjectAction;
 import hudson.model.AbstractProject;
-import hudson.tasks.BuildWrapper;
 import hudson.util.ChartUtil;
-import hudson.util.Graph;
 
 
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.SeriesRenderingOrder;
-import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.xy.TableXYDataset;
 import org.jfree.graphics2d.svg.*;
-import org.jfree.util.SortOrder;
 
 
 
-import java.awt.Rectangle;
 
 
 
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
-import com.mappy.jenkins.perf.mappyjenkinsperf.results.LrResultTable;
+import hudson.plugins.loadrunner.results.LrResultTable;
 
 
 

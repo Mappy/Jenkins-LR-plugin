@@ -10,13 +10,12 @@
     <version>1.580.1</version>
     <relativePath/>
   </parent>
-  <groupId>com.mappy.jenkins.perf</groupId>
-  <artifactId>mappy-jenkins-perf</artifactId>
-  <version>0.0.1-alpha</version>
+  <groupId>hudson.plugins</groupId>
+  <artifactId>loadrunner</artifactId>
   <packaging>hpi</packaging>
   <!-- <basedir>C:/WORK/_Tests de Perf/__Mappy/plugin_jenkins_perf/MappyJenkinsLR/mappy-jenkins-perf/</basedir> -->
-  <name>Mappy Jenkins Performance Plugin</name>
-  <url>https://wiki.jenkins-ci.org/display/JENKINS/MappyJenkinsPerf</url>
+  <name>LoadRunner Plugin</name>
+  <url>https://wiki.jenkins-ci.org/display/JENKINS/LoadRunner</url>
   <licenses>
     <license>
       <name>MIT License</name>
@@ -79,5 +78,6 @@
       <!-- <systemPath>${env.java_home}/lib/jfreesvg-2.1.jar</systemPath> -->
    </dependency>
   </dependencies>
-  <description>Uses LoadRunner local resources to run and analyse test scenarios.</description>
+  <description>Runs HP LoadRunner scenarios and publishes performance indicators over builds.</description>
+  <version>0.2.1</version>
 </project>
