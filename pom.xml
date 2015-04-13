@@ -11,7 +11,7 @@
     <relativePath/>
   </parent>
   <groupId>hudson.plugins</groupId>
-  <artifactId>loadrunner</artifactId>
+  <artifactId>devloadrunner</artifactId>
   <packaging>hpi</packaging>
   <!-- <basedir>C:/WORK/_Tests de Perf/__Mappy/plugin_jenkins_perf/MappyJenkinsLR/mappy-jenkins-perf/</basedir> -->
   <name>LoadRunner Plugin</name>
@@ -79,5 +79,5 @@
    </dependency>
   </dependencies>
   <description>Runs HP LoadRunner scenarios and publishes performance indicators over builds.</description>
-  <version>0.2.1</version>
+  <version>0.3</version>
 </project>

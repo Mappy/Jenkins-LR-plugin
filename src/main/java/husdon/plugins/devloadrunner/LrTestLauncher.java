@@ -1,4 +1,4 @@
-package hudson.plugins.loadrunner;
+package husdon.plugins.devloadrunner;
 
 
 import hudson.EnvVars;
@@ -22,7 +22,7 @@ import org.kohsuke.stapler.StaplerRequest;
 
 //import MappyJenkinsPerfBuilder.DescriptorImpl;
 
-import hudson.plugins.loadrunner.results.LrResultTable;
+import husdon.plugins.devloadrunner.results.LrResultTable;
 
 
 

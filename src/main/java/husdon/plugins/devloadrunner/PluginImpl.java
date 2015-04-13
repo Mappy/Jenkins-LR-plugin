@@ -1,4 +1,4 @@
-package hudson.plugins.loadrunner;
+package husdon.plugins.devloadrunner;
 
 
 import hudson.Plugin;
@@ -23,6 +23,6 @@ public class PluginImpl extends Plugin {
    public static final String LRT_URL = null;
    public static final String LRT_ICON_FILE_NAME = null;
    
-   public static final String LBWD_CONFIG_DISPLAY_NAME = "[LoadRunner] Publish LR results and display performance graphs over builds";
+   public static final String LBWD_CONFIG_DISPLAY_NAME = "[DEV LoadRunner] Publish LR results and display performance graphs over builds";
    
 }
