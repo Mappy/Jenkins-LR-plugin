@@ -1,10 +1,10 @@
-package husdon.plugins.devloadrunner;
+package hudson.plugins.devloadrunner;
 
 
 import hudson.Plugin;
 
 /**
- * Entry point of Data Results plugin.
+ * Entry point of LoadRunner plugin.
  */
 public class PluginImpl extends Plugin {
    public static final String DISPLAY_NAME = "LoadRunner Test Automation";
@@ -23,6 +23,8 @@ public class PluginImpl extends Plugin {
    public static final String LRT_URL = null;
    public static final String LRT_ICON_FILE_NAME = null;
    
+   
+   public static final String LTL_DISPLAY_NAME = "[DEV] LoadRunner plugin configuration";
    public static final String LBWD_CONFIG_DISPLAY_NAME = "[DEV LoadRunner] Publish LR results and display performance graphs over builds";
    
 }

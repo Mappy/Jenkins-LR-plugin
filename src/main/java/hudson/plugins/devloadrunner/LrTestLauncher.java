@@ -1,4 +1,4 @@
-package husdon.plugins.devloadrunner;
+package hudson.plugins.devloadrunner;
 
 
 import hudson.EnvVars;
@@ -22,7 +22,7 @@ import org.kohsuke.stapler.StaplerRequest;
 
 //import MappyJenkinsPerfBuilder.DescriptorImpl;
 
-import husdon.plugins.devloadrunner.results.LrResultTable;
+import hudson.plugins.devloadrunner.results.LrResultTable;
 
 
 
@@ -202,7 +202,7 @@ public class LrTestLauncher extends Builder {
          * This human readable name is used in the configuration screen.
          */
         public String getDisplayName() {
-            return "LoadRunner plugin configuration";
+            return PluginImpl.LTL_DISPLAY_NAME;
         }
 
         @Override

@@ -14,7 +14,7 @@
   <artifactId>devloadrunner</artifactId>
   <packaging>hpi</packaging>
   <!-- <basedir>C:/WORK/_Tests de Perf/__Mappy/plugin_jenkins_perf/MappyJenkinsLR/mappy-jenkins-perf/</basedir> -->
-  <name>LoadRunner Plugin</name>
+  <name>LoadRunner Plugin [DEV]</name>
   <url>https://wiki.jenkins-ci.org/display/JENKINS/LoadRunner</url>
   <licenses>
     <license>

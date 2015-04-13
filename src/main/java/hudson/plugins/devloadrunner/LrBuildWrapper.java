@@ -1,4 +1,4 @@
-package husdon.plugins.devloadrunner;
+package hudson.plugins.devloadrunner;
 
 
 import hudson.Launcher;

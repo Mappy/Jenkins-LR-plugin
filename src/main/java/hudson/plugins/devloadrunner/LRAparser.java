@@ -1,4 +1,4 @@
-package husdon.plugins.devloadrunner;
+package hudson.plugins.devloadrunner;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,7 +14,7 @@ import hudson.model.Action;
 import hudson.model.BuildListener;
 import hudson.model.Result;
 
-import husdon.plugins.devloadrunner.results.*;
+import hudson.plugins.devloadrunner.results.*;
 
 
 

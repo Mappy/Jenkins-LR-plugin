@@ -1,4 +1,4 @@
-package husdon.plugins.devloadrunner.results;
+package hudson.plugins.devloadrunner.results;
 
 import java.util.HashMap;
 

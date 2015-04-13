@@ -1,4 +1,4 @@
-package husdon.plugins.devloadrunner;
+package hudson.plugins.devloadrunner;
 
 import hudson.model.AbstractBuild;
 import hudson.model.Action;
@@ -274,7 +274,7 @@ public class LrTestExecutor implements Action {
 				    	listener.getLogger().println("============================= TEST RUN FAILED =============================\n\n\n");
 						build.setResult(Result.FAILURE);
 						build.doStop();
-						Thread. sleep(3000);
+						Thread.sleep(3000);
 						break;
 					}
  			   		
@@ -296,7 +296,7 @@ public class LrTestExecutor implements Action {
 		    	loop_wait_ms = 500;
 				while (!temp_lra_dir.exists()) {
 					if (cpt_time_ms < 1000*Integer.valueOf(lrAnalysisTimeout)) {
-						listener.getLogger().println("\n ## " + lraFileName + " directory not created yet");
+						listener.getLogger().println(" ## " + lraFileName + " directory not created yet");
 						Thread.sleep(loop_wait_ms);
 	 			   		cpt_time_ms += loop_wait_ms;
 					}
@@ -305,6 +305,7 @@ public class LrTestExecutor implements Action {
 				    	listener.getLogger().println("=========================== TEST ANALYSIS FAILED ===========================\n\n\n");
 						build.setResult(Result.FAILURE);
 						build.doStop();
+						Thread.sleep(3000);
 						break;
 					}
 					
@@ -331,6 +332,7 @@ public class LrTestExecutor implements Action {
 				    	listener.getLogger().println("=========================== TEST ANALYSIS FAILED ===========================\n\n\n");
 						build.setResult(Result.FAILURE);
 						build.doStop();
+						Thread.sleep(3000);
 						break;
 		   			}
 
@@ -353,6 +355,7 @@ public class LrTestExecutor implements Action {
 				    	listener.getLogger().println("=========================== TEST ANALYSIS FAILED ===========================\n\n\n");
 						build.setResult(Result.FAILURE);
 						build.doStop();
+						Thread.sleep(3000);
 						break;
 					}
 		   		}
@@ -377,6 +380,7 @@ public class LrTestExecutor implements Action {
 				    	listener.getLogger().println("=========================== TEST ANALYSIS FAILED ===========================\n\n\n");
 						build.setResult(Result.FAILURE);
 						build.doStop();
+						Thread.sleep(3000);
 						break;
 		   			}
 		   		}
