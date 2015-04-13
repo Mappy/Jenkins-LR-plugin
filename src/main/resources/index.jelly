@@ -3,5 +3,5 @@
   This view is used to render the installed plugins page.
 -->
 <div>
-  Runs HP LoadRunner scenarios and publishes performance indicators over builds.
+  [LoadRunner] Runs HP LoadRunner scenarios and publishes performance indicators over builds.
 </div>

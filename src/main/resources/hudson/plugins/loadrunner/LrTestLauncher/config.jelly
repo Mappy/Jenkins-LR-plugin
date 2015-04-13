@@ -13,7 +13,10 @@
   <f:entry title="Path to LoadRunner scenario file (.lrs)" field="lrsFile" value="${from.lrsFile}">
     <f:textbox />
   </f:entry>
-  <f:entry title="Build Timeout (s)" field="lrExecTimeout" value="${from.lrExecTimeout}">
+  <f:entry title="Run Timeout (s)" field="lrExecTimeout" value="${from.lrExecTimeout}">
+    <f:textbox />
+  </f:entry>
+  <f:entry title="Analysis Timeout (s)" field="lrAnalysisTimeout" value="${from.lrAnalysisTimeout}">
     <f:textbox />
   </f:entry>
   <f:entry title="Name of the LRA report file (.lra)" field="lraFileName" value="${from.lraFileName}">

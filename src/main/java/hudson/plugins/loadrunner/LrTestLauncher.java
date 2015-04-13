@@ -13,6 +13,8 @@ import hudson.tasks.Builder;
 import java.io.File;
 import java.io.IOException;
 
+import javax.servlet.ServletException;
+
 import net.sf.json.JSONObject;
 
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -29,15 +31,17 @@ public class LrTestLauncher extends Builder {
     //private final String pathToWlrun;
     private String lrsFile;
     private String lrExecTimeout;
+    private String lrAnalysisTimeout;
     //private final String monitorLrTransacts;
     private String lraFileName;
 	
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
 	@DataBoundConstructor
-	public LrTestLauncher(String lrsFile, String lrExecTimeout, /*String monitorLrTransacts,*/ String lraFileName) {
+	public LrTestLauncher(String lrsFile, String lrExecTimeout, String lrAnalysisTimeout,/*String monitorLrTransacts,*/ String lraFileName) {
 	    //this.pathToWlrun = pathToWlrun;
 	    this.lrsFile = lrsFile;
 	    this.lrExecTimeout = lrExecTimeout;
+	    this.lrAnalysisTimeout = lrAnalysisTimeout;
 	    //this.monitorLrTransacts = monitorLrTransacts;
 	    this.lraFileName = lraFileName;
 	}
@@ -45,7 +49,11 @@ public class LrTestLauncher extends Builder {
     public String getLrExecTimeout() {
         return lrExecTimeout;
     }
-
+    
+    public String getLrAnalysisTimeout() {
+        return lrAnalysisTimeout;
+    }
+    
     public String getLrsFile() {
     	return lrsFile;
 		}
@@ -57,7 +65,11 @@ public class LrTestLauncher extends Builder {
     public void setLrExecTimeout(String timeout) {
         this.lrExecTimeout = timeout;
     }
-
+    
+    public void setLrAnalysisTimeout(String timeout) {
+        this.lrAnalysisTimeout = timeout;
+    }
+    
     public void setLrsFile(String lrsfile) {
     	this.lrsFile = lrsfile;
 		}
@@ -84,56 +96,64 @@ public class LrTestLauncher extends Builder {
     	String build_id = envVars.get("BUILD_ID");
     	String workspace = envVars.get("WORKSPACE");
     	
-    	String job_builds_dir = workspace + "/" + job_name + "/builds/";
-    /*	
-    	listener.getLogger().println("\n### I could get theses ENV variables through the code : \n\tJOB_NAME : " + job_name
+    	String job_builds_dir = workspace + "\\..\\builds\\";
+    	
+    	listener.getLogger().println("\n######################## ENTERING LOADRUNNER PLUGIN #########################\n");
+    	listener.getLogger().println(" ### ENV variables :"
+    			+ "\n\tJOB_NAME : " + job_name
 				+ "\n\tBUILD_NUMBER : " + build_number
 				+ "\n\tBUILD_ID : " + build_id
 				+ "\n\tWORKSPACE : " + workspace
 				+ "\n\tjob_build_dir : " + job_builds_dir
-				+ "\n\tpathToWlrun : " + getDescriptor().getPathtoWlrun()
+				+ "\n\tpathToWlrun : " + getDescriptor().getPathToWlrun()
 				+ "\n\tlrsFile : " + lrsFile
 				+ "\n\tlraFileName : " + lraFileName
 				+ "\n\tlrExecTimeout : " + lrExecTimeout
+				+ "\n\tlrAnalysisTimeout : " + lrAnalysisTimeout
     			);
-	*/	 
-		LrTestExecutor lr_test_exec = new LrTestExecutor(build, listener, getDescriptor().getPathToWlrun() , lrsFile, lraFileName, lrExecTimeout);
-		if (lr_test_exec.RunTest(job_builds_dir, build_id)) {
-		//if (true) {
-			/**
-			 * Building the path to the .asc file to be parsed 
-			 */
-			File targetLraDir = new File(job_builds_dir + build_id + "/" + lraFileName + "/");
-		   	File pathToAsc = new File(targetLraDir + "\\LRA.asc");
-		    //File pathToAsc = new File("c:\\tests-auto\\test_plugin\\builds\\2015-03-23_18-42-54\\LRA\\LRA.asc");
+
+		LrTestExecutor lr_test_exec = new LrTestExecutor(build, listener, getDescriptor().getPathToWlrun() , lrsFile, lraFileName, lrExecTimeout, lrAnalysisTimeout);
+		try {
+			if (lr_test_exec.RunTest(job_builds_dir, build_id)) {
+			//if (true) {
+				/**
+				 * Building the path to the .asc file to be parsed 
+				 */
+				File targetLraDir = new File(job_builds_dir + build_id + "/" + lraFileName + "/");
+			   	File pathToAsc = new File(targetLraDir + "\\LRA.asc");
+			    //File pathToAsc = new File("c:\\tests-auto\\test_plugin\\builds\\2015-03-23_18-42-54\\LRA\\LRA.asc");
 //		    
 //	    	
-			/**
-			 * Parsing ALL the results from the .asc file and adding the LrResultTable Action to the build
-			 */
-		    LRAparser lra_parser = new LRAparser(build, listener, pathToAsc);
-		    LrResultTable RunResults = lra_parser.parseAllResults();
-		    build.addAction(RunResults);
+				/**
+				 * Parsing ALL the results from the .asc file and adding the LrResultTable Action to the build
+				 */
+			    LRAparser lra_parser = new LRAparser(build, listener, pathToAsc);
+			    LrResultTable RunResults = lra_parser.parseAllResults();
+			    build.addAction(RunResults);
 //
 //		    
 ////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////// 
-	    	/**
-	    	 * Graph ALL transactions in List monitorLrTransacts 
-	    	 */    	
-	    	AbstractProject<?,?> project = build.getProject(); 
+				/**
+				 * Graph ALL transactions in List monitorLrTransacts 
+				 */    	
+				AbstractProject<?,?> project = build.getProject(); 
 //			listener.getLogger().println("######### perform() / project.toString() : " + project.toString());
 //
-	    	//LrProjectAction lpa = new LrProjectAction(project, listener, monitorLrTransacts.split(",") );
-	    	//lpa.setOwner(build);
+				//LrProjectAction lpa = new LrProjectAction(project, listener, monitorLrTransacts.split(",") );
+				//lpa.setOwner(build);
 //	    	//lpa.buildDataSet("geoentity_Global");
-	    	//build.addAction(lpa);
+				//build.addAction(lpa);
 //
 //	    	
 //
 //	    	//project.addAction(lpa);
 //////////////////////////////////////////////////////////////////////// 
 ////////////////////////////////////////////////////////////////////////
+			}
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		 
 		return true;

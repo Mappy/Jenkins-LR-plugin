@@ -33,6 +33,6 @@
 #  - It's only possible to use the Analysis Defaut Template to generate LRA & HTML reports
 #  - Configure Analysis Template to save LRA in a TMP directory (same as used by WLRUN to generate LRR
 #  - CANNOT BE DEPLOYED ON A MASTER/SLAVE CONFIGURATION (STANDALONE ONLY)
-#  - Since any Wlrun.exe running process is killed on the host at the launch of a build, Jenkins may be configured with one executor only
-#  - Results extraction are based on the parsing of the LRA/LRA.asc file, assuming each Transaction-related metric in the file adopts the following format : RowNo[0-9]+=Transaction Name#Minimum#Average#Maximum#Std. Deviation#90 Percent#Pass#Fail#Stop
+#  - Since any Wlrun.exe running process is killed at the launch of a build, Jenkins may be configured with one executor only
+#  - Results extraction are based on the parsing of the path/to/LRA/LRA.asc file, assuming each Transaction-related metric in the file adopts the following format : RowNo[0-9]+=Transaction Name#Minimum#Average#Maximum#Std. Deviation#90 Percent#Pass#Fail#Stop
 #  - 

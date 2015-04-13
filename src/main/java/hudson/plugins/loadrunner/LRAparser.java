@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import hudson.model.AbstractBuild;
 import hudson.model.Action;
 import hudson.model.BuildListener;
+import hudson.model.Result;
 
 import hudson.plugins.loadrunner.results.*;
 
@@ -40,8 +41,6 @@ public class LRAparser implements Action {
 	   this.path_to_asc_file = path_to_asc_file;
 	   this.listener = listener;
 	   lr_result_table.setOwner(this.build);
-	   
-	      
    }
 	
 
@@ -67,12 +66,6 @@ public class LRAparser implements Action {
 	      return build;
 	   }
 
-
-    /*
-    static float getAvgRespTime() {
-    	return (float)1.23;
-    }
-	*/
     
     /**
  	 *   parses the LRA.asc file, regex the 'transaction_name' lines in it and stores the values in a 'LrTransactionStats' object
@@ -86,6 +79,7 @@ public class LRAparser implements Action {
     		 */
     		BufferedReader br = new BufferedReader(new FileReader(path_to_asc_file));
     		
+			listener.getLogger().println("\n### Parsing the LRA report file ## .asc file being parsed = " + path_to_asc_file);
 
    		
     		/**
@@ -106,17 +100,26 @@ public class LRAparser implements Action {
     		 */
     		while ((rawline = br.readLine()) != null) {
     			
-    			line = rawline.replaceAll("[^\\d\\w\\s_#,.=?!\\-/]", "");
+    			/*
+    			 * line = rawline with painfull encoded characters removed 
+    			 */
+    			line = rawline.replaceAll("[^\\d\\w\\s_#,.=?!\\-/+]", "");
     			//listener.getLogger().println("## raw line in .asc :" + rawline);
     			//listener.getLogger().println("## modified line in .asc :" + line);
     			
     			m = row_any_lr_transact.matcher(line);
-    			//int i = 0;
+
+    			
+    			/*
+    			 * IF MATCH -> adds the following metrics to stats dictionnary
+    			 * 				RowNo0=Transaction Name#Minimum#Average#Maximum#Std. Deviation#90 Percent#Pass#Fail#Stop
+    			 *				------=m.group(1)#m.group(2)#m.group(3)#m.group(4)#m.group(5)#m.group(6)#m.group(7)#m.group(8)m.group(9)
+    			 */
         		if (m.matches()) {
         			//listener.getLogger().println("## raw line matching in .asc :" + rawline);
         			//listener.getLogger().println("## line matching in .asc with painfull W$ characters removed :" + line);
         			LrTransactionStats stat_line = new LrTransactionStats(m.group(1).toString());
-        			// TODO : replace "Minimum", "Average" ... labels with PluginImpl.MINI, PluginImpl.AVG ...
+        	// TODO : replace "Minimum", "Average" ... labels with PluginImpl.MINI, PluginImpl.AVG ...
         			stat_line.addStat("Minimum", Float.parseFloat(m.group(2).replace(",", ".")));
         			stat_line.addStat("Average", Float.parseFloat(m.group(3).replace(",", ".")));
         			stat_line.addStat("Maximum", Float.parseFloat(m.group(4).replace(",", ".")));
@@ -126,24 +129,28 @@ public class LRAparser implements Action {
         			stat_line.addStat("Fail", Float.parseFloat(m.group(8).replace(",", ".")));
         			stat_line.addStat("Stop", Float.parseFloat(m.group(9).replace(",", ".")));
             		
-        			//listener.getLogger().println("## transaction name :" + stat_line.getName().toString());
-        			//listener.getLogger().println("## metrics count :" + Integer.toString(stat_line.getCount()));
-        			
-        			//LrTableResults.add(i, stat_line);
-        			
+        			listener.getLogger().println(" ### transaction name : " + stat_line.getName().toString() + " ### metrics count : " + Integer.toString(stat_line.getCount()));
         			lr_result_table.addStatToDic(m.group(1).toString(),stat_line);
-        			//++i;
         		}
-
     		}
-    		
     		br.close();
     	}
     	else {
-    		//listener.getLogger().println("### NO " + path_to_asc_file + " file found"); 
+    		listener.getLogger().println(" ### NO " + path_to_asc_file + " file found"); 
     	}
-    	//listener.getLogger().println("### " + lr_result_table.getStatsDicCount() + " items found in LrResultTable"); 
-    	return lr_result_table;
+    	
+    	if (lr_result_table.getStatsDicCount() == 0) {
+    		listener.getLogger().println(" ### /!\\ LrResultTable is an empty set  /!\\ ### ");
+    		build.setResult(Result.FAILURE);
+    		return null;
+    	}
+    	else {
+    		listener.getLogger().println(" ### " + lr_result_table.getStatsDicCount() + " items found in LrResultTable");
+	    	listener.getLogger().println("===================== PARSING OF THE RESULTS COMPLETED =====================");
+	    	listener.getLogger().println("\n\n######################## EXITING LOADRUNNER PLUGIN #########################\n\n\n");
+	    	return lr_result_table;
+    		
+    	}
     }
     
 ///////
