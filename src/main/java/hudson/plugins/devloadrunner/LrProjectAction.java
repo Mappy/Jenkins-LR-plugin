@@ -173,12 +173,13 @@ public class LrProjectAction implements Action, ProminentProjectAction {
     */
    @SuppressWarnings("deprecation")
    public void doRespTimeGraph(final StaplerRequest req, StaplerResponse rsp) throws IOException, InterruptedException {
-	   
+
+	final String lrTransactName = req.getParameter("lrTransact");  
     final JFreeChart respTimeChart = ChartFactory.createLineChart(
-    			lr_transact_list[0],//"geoentity_Global", // charttitle
+    			lrTransactName, //req.getParameter("lrTransact"),//lr_transact_list[0],//"geoentity_Global", // charttitle
 	            "build", // unused
 	            "seconds", // range axis label
-	            this.buildRespTimeDataset(lr_transact_list[0]), // data
+	            this.buildRespTimeDataset(lrTransactName), //req.getParameter("lrTransact")), // data
 		    	PlotOrientation.VERTICAL, // orientation
 	            true, // include legend
 	            true, // tooltips
@@ -199,12 +200,13 @@ public class LrProjectAction implements Action, ProminentProjectAction {
     */
    @SuppressWarnings("deprecation")
    public void doErrorRateGraph(final StaplerRequest req, StaplerResponse rsp) throws IOException, InterruptedException {
-	   
+
+    final String lrTransactName = req.getParameter("lrTransact");  
     final JFreeChart errorRateChart = ChartFactory. createBarChart(
-    			lr_transact_list[0], // "geoentity_Global", // charttitle
+    			lrTransactName, //req.getParameter("lrTransact"),// // "geoentity_Global", // charttitle
 	            "build", // unused
 	            "%", // range axis label
-	            this.buildErrorRateDataset(lr_transact_list[0]), //"geoentity_Global"), // data
+	            this.buildErrorRateDataset(lrTransactName), //req.getParameter("lrTransact")), //"geoentity_Global"), // data
 		    	PlotOrientation.VERTICAL, // orientation
 	            true, // include legend
 	            true, // tooltips
@@ -323,6 +325,10 @@ public class LrProjectAction implements Action, ProminentProjectAction {
 
    public String[] getLrTransactList() {
 	   return lr_transact_list;
+   }
+
+   public String getMainLrTransactName() {
+	   return lr_transact_list[0];
    }
 
    
