@@ -296,7 +296,7 @@ public class LrTestExecutor implements Action {
 		    	loop_wait_ms = 500;
 				while (!temp_lra_dir.exists()) {
 					if (cpt_time_ms < 1000*Integer.valueOf(lrAnalysisTimeout)) {
-						listener.getLogger().println(" ## " + lraFileName + " directory not created yet");
+						listener.getLogger().println(" ## " + new Date(System.currentTimeMillis()) + " ## " + lraFileName + " directory not created yet");
 						Thread.sleep(loop_wait_ms);
 	 			   		cpt_time_ms += loop_wait_ms;
 					}
@@ -390,9 +390,9 @@ public class LrTestExecutor implements Action {
 				/*
 				 * MOVE LRA and HTML directories from TEMP to BUILD_ID location
 				 */
-				temp_lra_dir.renameTo(target_lra_dir);
-				temp_html_dir.renameTo(target_html_dir);
-				
+				if (temp_lra_dir.renameTo(target_lra_dir) && temp_html_dir.renameTo(target_html_dir)) {
+					listener.getLogger().println(" ### Successfully moved " + lraFileName + " and HTML reports from : " + temp_dir + " to " + target_lra_dir + " and " + target_html_dir);
+				}
 //				}
 			} catch (InterruptedException e1) {
 				listener.getLogger().println("Test runtime ERROR : " + e1.toString());
