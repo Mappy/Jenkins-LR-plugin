@@ -6,16 +6,19 @@ import hudson.model.*;
 import hudson.tasks.BuildWrapper;
 import org.kohsuke.stapler.DataBoundConstructor;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
 public class LrBuildWrapper extends BuildWrapper {
 	
-	private /*transient*/ String monitorLrTransacts;
+	private String monitorLrTransacts;
+	private ArrayList<LrRepeatableTransactionConfig> lrTransactsConfig;
 	
 	@DataBoundConstructor
-	public LrBuildWrapper(String monitorLrTransacts) {
+	public LrBuildWrapper(String monitorLrTransacts, ArrayList<LrRepeatableTransactionConfig> lrTransactsConfig) {
 		this.monitorLrTransacts = monitorLrTransacts;
+		this.lrTransactsConfig = lrTransactsConfig;
 	}
 	
     @Override
@@ -47,6 +50,14 @@ public class LrBuildWrapper extends BuildWrapper {
     
     public void setMonitorLrTransacts(String lrTransact) {
     	this.monitorLrTransacts = lrTransact;
+    }
+    
+    public ArrayList<LrRepeatableTransactionConfig> getLrTransactsConfig() {
+    	return lrTransactsConfig;
+    }
+    
+    public void setLrTransactsConfig(ArrayList<LrRepeatableTransactionConfig> lrTransactsConfig) {
+    	this.lrTransactsConfig = lrTransactsConfig;
     }
 /*
     public String getLraFileName() {

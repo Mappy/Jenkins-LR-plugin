@@ -13,4 +13,42 @@
   	<f:entry title="Main LR transaction to be graphed " field="monitorLrTransacts" value="${from.monitorLrTransacts}">
     	<f:textbox />
   	</f:entry>
+	<f:entry title="Performance Graphs configuration">
+  	  	<table width="100%">
+			<col width="15%"/>
+			<col width="15%"/>
+			<col width="15%"/>
+			<col width="15%"/>
+			<col width="15%"/>
+			<col width="15%"/>
+			<tr><td><br/><br/></td></tr>
+			<tr>
+				<td align="center">Main transaction</td>			
+				<td align="center">LR transaction name</td>
+		        <td align="center">SLA for Average response time (s)</td>
+		        <td align="center">SLA for 90% response time (s)</td>
+		        <td align="center">SLA for Error rate (%)</td>
+		        <td align="center">Delete         </td>
+	    	</tr>
+	    </table>
+
+	    <f:repeatable field="lrTransactsConfig">
+			<table width="100%">
+				<col width="15%"/>
+				<col width="15%"/>
+				<col width="15%"/>
+				<col width="15%"/>
+				<col width="15%"/>
+				<col width="15%"/>
+			 	<tr>
+					<td align="center">	<f:checkbox field="isMainTransact" />	</td>
+					<td align="center">	<f:textbox field="lrTransactName" />	</td>
+					<td align="center">	<f:textbox field="avgRespTimeSLA" />	</td>
+					<td align="center">	<f:textbox field="pctRespTimeSLA" />	</td>
+					<td align="center">	<f:textbox field="errorRateSLA" />		</td>
+					<td align="center">	<f:repeatableDeleteButton/>	</td>
+				</tr>
+			</table>
+		</f:repeatable>
+	</f:entry>
 </j:jelly>
