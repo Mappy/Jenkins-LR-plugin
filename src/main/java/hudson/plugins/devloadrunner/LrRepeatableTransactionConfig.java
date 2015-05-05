@@ -1,8 +1,12 @@
 package hudson.plugins.devloadrunner;
 
+import hudson.Extension;
+import hudson.model.AbstractDescribableImpl;
+import hudson.model.Descriptor;
+
 import org.kohsuke.stapler.DataBoundConstructor;
 
-public class LrRepeatableTransactionConfig {
+public class LrRepeatableTransactionConfig extends AbstractDescribableImpl<LrRepeatableTransactionConfig>{
 
 	private String lrTransactName;
 	private boolean isMainTransact;
@@ -26,18 +30,27 @@ public class LrRepeatableTransactionConfig {
 	public boolean isMainTransact() {
 		return this.isMainTransact;
 	}
-	 
+	
+	public boolean getIsMainTransact() {
+		return this.isMainTransact;
+	}
+	
 	public float getAvgRespTimeSLA() {
 		return this.avgRespTimeSLA;
 	}
 	
-	public float getPctRestTimeSLA() {
+	public float getPctRespTimeSLA() {
 		return this.pctRespTimeSLA;
 	}
 	
 	public float getErrorRateSLA() {
 		return this.errorRateSLA;
 	}
+
 	
+    @Extension
+    public static class DescriptorImpl extends Descriptor<LrRepeatableTransactionConfig> {
+        public String getDisplayName() { return ""; }
+    }	
 	
 }

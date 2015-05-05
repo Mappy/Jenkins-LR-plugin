@@ -24,7 +24,8 @@ public class LrBuildWrapper extends BuildWrapper {
     @Override
     public Collection<? extends Action> getProjectActions(AbstractProject job) {
     	//String[] trs = new String[] {monitorLrTransacts};
-    	final LrProjectAction lpa = new LrProjectAction(job, null, monitorLrTransacts.split(",") ); //new String[] {monitorMainLrTransact});
+    	//final LrProjectAction lpa = new LrProjectAction(job, null, monitorLrTransacts.split(",") ); //new String[] {monitorMainLrTransact});
+    	final LrProjectAction lpa = new LrProjectAction(job, null, lrTransactsConfig);
     	return Arrays.asList(lpa);
     }
 	

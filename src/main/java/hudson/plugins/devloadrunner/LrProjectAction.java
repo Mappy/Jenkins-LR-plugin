@@ -2,6 +2,7 @@ package hudson.plugins.devloadrunner;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 
@@ -40,18 +41,18 @@ public class LrProjectAction implements Action, ProminentProjectAction {
 /**
     * The owner of this action.
     */
-	private final /*transient*/ AbstractProject<?, ?> project;
-	private /*transient*/ AbstractBuild<?,?> owner;
-	private final /*transient*/ BuildListener listener;
-	private final /*transient*/ String[] lr_transact_list;
-
+	private final AbstractProject<?, ?> project;
+	private AbstractBuild<?,?> owner;
+	private final BuildListener listener;
+	private final ArrayList<LrRepeatableTransactionConfig> lrTransactsConfList;
+	
 	/**
 	 *   Constructor
 	 */
-   public LrProjectAction(AbstractProject<?,?> project, BuildListener listener,  String[] lr_transact_list) {
+   public LrProjectAction(AbstractProject<?,?> project, BuildListener listener,  ArrayList<LrRepeatableTransactionConfig> lrTransactsConfList) {
 	   this.project = project;
 	   this.listener = listener;
-	   this.lr_transact_list = lr_transact_list;
+	   this.lrTransactsConfList = lrTransactsConfList;
 	   
    }
    
@@ -63,15 +64,15 @@ public class LrProjectAction implements Action, ProminentProjectAction {
 
    public String getIconFileName() {
 	      return PluginImpl.LPA_ICON_FILE_NAME;
-	   }
+   }
 
    public String getUrlName() {
 	      return PluginImpl.LPA_URL;
-	   }
+   }
    
    public String getName() {
 	      return PluginImpl.LPA_NAME;
-	   }
+   }
    
    public boolean isFloatingBoxActive() {
        return true;
@@ -105,11 +106,6 @@ public class LrProjectAction implements Action, ProminentProjectAction {
    protected Class<LrResultTable> getLrResultTableClass() {
 	   return LrResultTable.class;
 	}
-
-/*	protected Class<DataBuildAction> getBuildActionClass() {
-		return DataBuildAction.class;
-	}
-*/
 
 
    
@@ -176,9 +172,9 @@ public class LrProjectAction implements Action, ProminentProjectAction {
 
 	final String lrTransactName = req.getParameter("lrTransact");  
     final JFreeChart respTimeChart = ChartFactory.createLineChart(
-    			lrTransactName, //req.getParameter("lrTransact"),//lr_transact_list[0],//"geoentity_Global", // charttitle
+    			lrTransactName + " response times (ms)", //req.getParameter("lrTransact"),//lr_transact_list[0],//"geoentity_Global", // charttitle
 	            "build", // unused
-	            "seconds", // range axis label
+	            "milliseconds", // range axis label
 	            this.buildRespTimeDataset(lrTransactName), //req.getParameter("lrTransact")), // data
 		    	PlotOrientation.VERTICAL, // orientation
 	            true, // include legend
@@ -203,7 +199,7 @@ public class LrProjectAction implements Action, ProminentProjectAction {
 
     final String lrTransactName = req.getParameter("lrTransact");  
     final JFreeChart errorRateChart = ChartFactory. createBarChart(
-    			lrTransactName, //req.getParameter("lrTransact"),// // "geoentity_Global", // charttitle
+    			lrTransactName + " error rate (%)", //req.getParameter("lrTransact"),// // "geoentity_Global", // charttitle
 	            "build", // unused
 	            "%", // range axis label
 	            this.buildErrorRateDataset(lrTransactName), //req.getParameter("lrTransact")), //"geoentity_Global"), // data
@@ -235,8 +231,18 @@ public class LrProjectAction implements Action, ProminentProjectAction {
 		LrResultTable action = build.getAction(LrResultTable.class);
     	if (action != null && /*action.DicExists()*/ action.getStatsDic().get(lrTransact) != null && idx < PluginImpl.LPA_MAX_BUILDS_IN_GRAPHS) {
     		
-    		buffer.addValue(action.getStatsDic().get(lrTransact).getStat().get("Average").doubleValue(), "Average", Integer.toString(build.number));
-    		buffer.addValue(action.getStatsDic().get(lrTransact).getStat().get("90 Percent").doubleValue(), "90 Percent", Integer.toString(build.number));
+    		/*
+    		 * Builds Dataset with actual response times
+    		 */
+    		buffer.addValue(action.getStatsDic().get(lrTransact).getStat().get("Average").doubleValue()*1000, "Average", Integer.toString(build.number));
+    		buffer.addValue(action.getStatsDic().get(lrTransact).getStat().get("90 Percent").doubleValue()*1000, "90th Percent", Integer.toString(build.number));
+    		
+    		/*
+    		 * Builds Dataset with transaction SLA
+    		 */
+    		buffer.addValue(getAvgRespTimeSLA(lrTransact)*1000, "Average SLA", Integer.toString(build.number));
+    		buffer.addValue(getPctRespTimeSLA(lrTransact)*1000, "90th Percent SLA", Integer.toString(build.number));
+    		
     		
     		++idx;
     	}
@@ -252,6 +258,8 @@ public class LrProjectAction implements Action, ProminentProjectAction {
     while (i >= 0) {
     	graphDataset.addValue(buffer.getValue(0,i), buffer.getRowKey(0), buffer.getColumnKey(i));    	
     	graphDataset.addValue(buffer.getValue(1,i), buffer.getRowKey(1), buffer.getColumnKey(i));
+    	graphDataset.addValue(buffer.getValue(2,i), buffer.getRowKey(2), buffer.getColumnKey(i));
+    	graphDataset.addValue(buffer.getValue(3,i), buffer.getRowKey(3), buffer.getColumnKey(i));
     	i--;
     }
     
@@ -281,6 +289,7 @@ public class LrProjectAction implements Action, ProminentProjectAction {
     		double stopTr = action.getStatsDic().get(lrTransact).getStat().get("Stop").doubleValue();
     		double errorRate = 100*(failTr + stopTr) / (passTr + failTr + stopTr);
     		buffer.addValue(errorRate, "Error Rate", Integer.toString(build.number));
+    		buffer.addValue(getErrorRateSLA(lrTransact), "Error Rate SLA", Integer.toString(build.number));
     		++idx;
     	}
     	else {
@@ -295,6 +304,7 @@ public class LrProjectAction implements Action, ProminentProjectAction {
 	int i = buffer.getColumnCount() - 1;
     while (i >= 0) {
     	errorRateDataset.addValue(buffer.getValue(0,i), buffer.getRowKey(0), buffer.getColumnKey(i));
+    	errorRateDataset.addValue(buffer.getValue(1,i), buffer.getRowKey(1), buffer.getColumnKey(i));
     	i--;
     }
     
@@ -323,13 +333,76 @@ public class LrProjectAction implements Action, ProminentProjectAction {
    }
 
 
-   public String[] getLrTransactList() {
+   public ArrayList<String> getLrTransactList() {
+	   
+	   ArrayList<String> lr_transact_list = new ArrayList<String>();
+
+	   for(LrRepeatableTransactionConfig lrTransactConfig : lrTransactsConfList) {
+		   if (lrTransactConfig.getLrTransactName() != null) {
+			lr_transact_list.add(lrTransactConfig.getLrTransactName());
+		   }
+		   else
+		   {
+			   // DO NOTHING
+		   }
+	   }
 	   return lr_transact_list;
+	   
    }
 
    public String getMainLrTransactName() {
-	   return lr_transact_list[0];
+	   for(LrRepeatableTransactionConfig lrTransactConfig : lrTransactsConfList) {
+		   if (lrTransactConfig.isMainTransact()) {
+			   return lrTransactConfig.getLrTransactName();
+		   }
+		   else
+		   {
+			   // DO NOTHING
+		   }
+		  
+	   }
+	   return null;
    }
 
+   public float getAvgRespTimeSLA(String lrTransact) {
+
+	   for(LrRepeatableTransactionConfig lrTransactConfig : lrTransactsConfList) {
+		   if (lrTransactConfig.getLrTransactName().equals(lrTransact)) {
+			   return lrTransactConfig.getAvgRespTimeSLA();
+		   }
+		   else
+		   {
+			   // DO NOTHING
+		   }
+	   }
+	   return Float.NaN;
+   }
+  
+   public float getPctRespTimeSLA(String lrTransact) {
+
+	   for(LrRepeatableTransactionConfig lrTransactConfig : lrTransactsConfList) {
+		   if (lrTransactConfig.getLrTransactName().equals(lrTransact)) {
+			   return lrTransactConfig.getPctRespTimeSLA();
+		   }
+		   else
+		   {
+			   // DO NOTHING
+		   }
+	   }
+	   return Float.NaN;
+   }
    
+   public float getErrorRateSLA(String lrTransact) {
+
+	   for(LrRepeatableTransactionConfig lrTransactConfig : lrTransactsConfList) {
+		   if (lrTransactConfig.getLrTransactName().equals(lrTransact)) {
+			   return lrTransactConfig.getErrorRateSLA();
+		   }
+		   else
+		   {
+			   // DO NOTHING
+		   }
+	   }
+	   return Float.NaN;
+   }
 }

@@ -10,9 +10,11 @@
     Creates a text field that shows the value of the "name" property.
     When submitted, it will be passed to the corresponding constructor parameter.
   -->
+  <!--
   	<f:entry title="Main LR transaction to be graphed " field="monitorLrTransacts" value="${from.monitorLrTransacts}">
     	<f:textbox />
   	</f:entry>
+  -->
 	<f:entry title="Performance Graphs configuration">
   	  	<table width="100%">
 			<col width="15%"/>
