@@ -1,3 +1,14 @@
+/**
+ * LrBuildWrapper.java
+ * 
+ * Extends Jenkins' BuildWrapper to implement a pre-build step 
+ * consisting in parsing the config form LrBuildWrapper/config.jelly
+ * and setting the LR transactions to be graphed post-build.
+ *
+ * @author Yann LE VAN
+ * 
+ */
+
 package hudson.plugins.loadrunner;
 
 
@@ -6,22 +17,22 @@ import hudson.model.*;
 import hudson.tasks.BuildWrapper;
 import org.kohsuke.stapler.DataBoundConstructor;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
 public class LrBuildWrapper extends BuildWrapper {
 	
-	private /*transient*/ String monitorLrTransacts;
+	private ArrayList<LrRepeatableTransactionConfig> lrTransactsConfig;
 	
 	@DataBoundConstructor
-	public LrBuildWrapper(String monitorLrTransacts) {
-		this.monitorLrTransacts = monitorLrTransacts;
+	public LrBuildWrapper(ArrayList<LrRepeatableTransactionConfig> lrTransactsConfig) {
+		this.lrTransactsConfig = lrTransactsConfig;
 	}
 	
     @Override
     public Collection<? extends Action> getProjectActions(AbstractProject job) {
-    	//String[] trs = new String[] {monitorLrTransacts};
-    	final LrProjectAction lpa = new LrProjectAction(job, null, monitorLrTransacts.split(",") ); //new String[] {monitorMainLrTransact});
+    	final LrProjectAction lpa = new LrProjectAction(job, null, lrTransactsConfig);
     	return Arrays.asList(lpa);
     }
 	
@@ -32,25 +43,13 @@ public class LrBuildWrapper extends BuildWrapper {
         return new Environment() {};
     }    
     
-/*
-    public String getExecTimeout() {
-        return lrExecTimeout;
-    }
-
-    public String getLrsFile() {
-    	return lrsFile;
-	}
-*/
-    public String getMonitorLrTransacts() {
-    	return monitorLrTransacts;
+    
+    public ArrayList<LrRepeatableTransactionConfig> getLrTransactsConfig() {
+    	return lrTransactsConfig;
     }
     
-    public void setMonitorLrTransacts(String lrTransact) {
-    	this.monitorLrTransacts = lrTransact;
+    public void setLrTransactsConfig(ArrayList<LrRepeatableTransactionConfig> lrTransactsConfig) {
+    	this.lrTransactsConfig = lrTransactsConfig;
     }
-/*
-    public String getLraFileName() {
-    	return lraFileName;
-    }
-*/
-	}
+
+}

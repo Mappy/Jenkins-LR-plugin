@@ -1,3 +1,14 @@
+/**
+ * LrResultTable.java
+ * 
+ * Data model : class storing the results for a LR test run.
+ * Each transaction line from the summary is stored
+ * in a LrTransactionStats.java class 
+ *
+ * @author Yann LE VAN
+ * 
+ */
+
 package hudson.plugins.loadrunner.results;
 
 import hudson.model.Action;
@@ -15,9 +26,7 @@ public class LrResultTable implements Action, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 8452395018095821678L;
-/**
-	 * 
-	 */
+
 	
 	private String test_run_id;
 	private AbstractBuild<?,?> owner;

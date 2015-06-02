@@ -1,3 +1,14 @@
+/**
+ * LRAparser.java
+ * 
+ * Build Action class : parses .asc file (LoadRunner Analysis summary file)
+ * and stores the summary table (LR transactions : min/avg/max/90%/std dev./pass/stop/fail)
+ * in a LrResultTable.java class 
+ *
+ * @author Yann LE VAN
+ * 
+ */
+
 package hudson.plugins.loadrunner;
 
 import java.io.BufferedReader;

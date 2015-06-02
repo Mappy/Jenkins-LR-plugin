@@ -1,3 +1,13 @@
+/**
+ * LrTestLauncher.java
+ * 
+ * Encapsulates test execution / results parsing and provides dedicated classes
+ * with LrTestLauncher/config.jelly and LrTestLauncher/global.jelly param values 
+ *
+ * @author Yann LE VAN 
+ * 
+ */
+
 package hudson.plugins.loadrunner;
 
 
@@ -22,13 +32,12 @@ import org.kohsuke.stapler.StaplerRequest;
 
 //import MappyJenkinsPerfBuilder.DescriptorImpl;
 
-import hudson.plugins.loadrunner.results.LrResultTable;
+import hudson.plugins.devloadrunner.results.LrResultTable;
 
 
 
 
 public class LrTestLauncher extends Builder {
-    //private final String pathToWlrun;
     private String lrsFile;
     private String lrExecTimeout;
     private String lrAnalysisTimeout;
@@ -38,7 +47,7 @@ public class LrTestLauncher extends Builder {
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
 	@DataBoundConstructor
 	public LrTestLauncher(String lrsFile, String lrExecTimeout, String lrAnalysisTimeout,/*String monitorLrTransacts,*/ String lraFileName) {
-	    //this.pathToWlrun = pathToWlrun;
+
 	    this.lrsFile = lrsFile;
 	    this.lrExecTimeout = lrExecTimeout;
 	    this.lrAnalysisTimeout = lrAnalysisTimeout;
@@ -82,11 +91,7 @@ public class LrTestLauncher extends Builder {
 	public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener)
 			 throws InterruptedException, IOException {
 
-		 /*
-		  MyBuildAction action = new MyBuildAction(build);
-		  build.addAction(action);
-		  return true;
-		 */
+
 
     	EnvVars envVars = new EnvVars();
     	envVars = build.getEnvironment(listener);
@@ -115,41 +120,20 @@ public class LrTestLauncher extends Builder {
 		LrTestExecutor lr_test_exec = new LrTestExecutor(build, listener, getDescriptor().getPathToWlrun() , lrsFile, lraFileName, lrExecTimeout, lrAnalysisTimeout);
 		try {
 			if (lr_test_exec.RunTest(job_builds_dir, build_id)) {
-			//if (true) {
 				/**
 				 * Building the path to the .asc file to be parsed 
 				 */
 				File targetLraDir = new File(job_builds_dir + build_id + "/" + lraFileName + "/");
 			   	File pathToAsc = new File(targetLraDir + "\\LRA.asc");
-			    //File pathToAsc = new File("c:\\tests-auto\\test_plugin\\builds\\2015-03-23_18-42-54\\LRA\\LRA.asc");
-//		    
-//	    	
+
+			   	
 				/**
 				 * Parsing ALL the results from the .asc file and adding the LrResultTable Action to the build
 				 */
 			    LRAparser lra_parser = new LRAparser(build, listener, pathToAsc);
 			    LrResultTable RunResults = lra_parser.parseAllResults();
 			    build.addAction(RunResults);
-//
-//		    
-////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////// 
-				/**
-				 * Graph ALL transactions in List monitorLrTransacts 
-				 */    	
-				AbstractProject<?,?> project = build.getProject(); 
-//			listener.getLogger().println("######### perform() / project.toString() : " + project.toString());
-//
-				//LrProjectAction lpa = new LrProjectAction(project, listener, monitorLrTransacts.split(",") );
-				//lpa.setOwner(build);
-//	    	//lpa.buildDataSet("geoentity_Global");
-				//build.addAction(lpa);
-//
-//	    	
-//
-//	    	//project.addAction(lpa);
-//////////////////////////////////////////////////////////////////////// 
-////////////////////////////////////////////////////////////////////////
+
 			}
 		} catch (ServletException e) {
 			// TODO Auto-generated catch block
@@ -202,7 +186,7 @@ public class LrTestLauncher extends Builder {
          * This human readable name is used in the configuration screen.
          */
         public String getDisplayName() {
-            return "LoadRunner plugin configuration";
+            return PluginImpl.LTL_DISPLAY_NAME;
         }
 
         @Override
@@ -210,10 +194,7 @@ public class LrTestLauncher extends Builder {
             // To persist global configuration information,
             // set that to properties and call save().
         	pathToWlrun = formData.getString("pathToWlrun");
-        	//lrsFile = formData.getString("lrsFile");
-        	//lrExecTimeout = formData.getString("lrExecTimeout"); 
-        	//monitorLrTransacts = formData.getString("monitorLrTransacts");
-        	//lraFileName = formData.getString("lraFileName");
+
         	
             // Can also use req.bindJSON(this, formData);
             // (easier when there are many fields; need set* methods for this, like setPathToWlrun)

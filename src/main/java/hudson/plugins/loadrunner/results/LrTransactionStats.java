@@ -1,3 +1,13 @@
+/**
+ * LrTransactionStats.java
+ * 
+ * Data model : class storing the results for a specific
+ * transaction name from a LR test run.
+ *
+ * @author Yann LE VAN
+ * 
+ */
+
 package hudson.plugins.loadrunner.results;
 
 import java.util.HashMap;
