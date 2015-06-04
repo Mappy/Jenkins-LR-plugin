@@ -1,4 +1,4 @@
-package hudson.plugins.devloadrunner;
+package hudson.plugins.loadrunner;
 
 import hudson.model.AbstractBuild;
 import hudson.model.Action;

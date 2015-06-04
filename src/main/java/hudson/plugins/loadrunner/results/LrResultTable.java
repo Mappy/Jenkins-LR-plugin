@@ -1,4 +1,4 @@
-package hudson.plugins.devloadrunner.results;
+package hudson.plugins.loadrunner.results;
 
 import hudson.model.Action;
 import hudson.model.AbstractBuild;
@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import hudson.plugins.devloadrunner.PluginImpl;
+import hudson.plugins.loadrunner.PluginImpl;
 
 public class LrResultTable implements Action, Serializable {
 	

@@ -1,4 +1,4 @@
-package hudson.plugins.devloadrunner;
+package hudson.plugins.loadrunner;
 
 import hudson.Extension;
 import hudson.model.AbstractDescribableImpl;

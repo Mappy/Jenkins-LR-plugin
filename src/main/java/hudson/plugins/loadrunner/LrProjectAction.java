@@ -1,4 +1,4 @@
-package hudson.plugins.devloadrunner;
+package hudson.plugins.loadrunner;
 
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ import org.jfree.graphics2d.svg.*;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
-import hudson.plugins.devloadrunner.results.*;
+import hudson.plugins.loadrunner.results.*;
 
 
 
