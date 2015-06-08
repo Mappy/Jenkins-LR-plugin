@@ -1,19 +1,18 @@
 /**
- * LrRepeatableTransactionConfig.java
+ * LrBuildWrapperDescriptor.java
  * 
- * Class mapping the LrBuildWrapper/config.jelly parameters 
- * (multiple instances in an ArrayList within LrBuildWrapper.java)  
+ * BuildWrapperDescriptor
  *
  * @author Yann LE VAN
- * 
+ *
  */
+
 
 package hudson.plugins.loadrunner;
 
 import hudson.Extension;
 import hudson.model.AbstractProject;
 import hudson.tasks.BuildWrapperDescriptor;
-
 
 
 @Extension

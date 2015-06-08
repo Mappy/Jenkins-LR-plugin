@@ -1,11 +1,11 @@
 /**
  * PluginImpl.java
- * 
- * Stores generic configuration values such as graphs/pages titles 
+ *
+ * Stores generic configuration values such as graphs/pages titles
  * or URLs and maximum builds to be displayed on graphs.
  *
  * @author Yann LE VAN
- * 
+ *
  */
 
 package hudson.plugins.loadrunner;

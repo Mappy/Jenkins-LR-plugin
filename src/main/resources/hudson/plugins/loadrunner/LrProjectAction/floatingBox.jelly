@@ -3,12 +3,13 @@
       <div style="width:650px;">
         <h2>${from.displayName}</h2>
 		<j:set var="relativeUrlPath" value="${from.urlName}/"/>
+		<j:set var="mainLrTransact" value="${from.mainLrTransactName}"/>
       	<div>
-      		<img src="${relativeUrlPath}respTimeGraph" alt="No Response Time Graph Available : ${relativeUrlPath}respTimeGraph"/>
+      		<img src="${relativeUrlPath}respTimeGraph?lrTransact=${mainLrTransact}" alt="No Response Time Graph Available : ${relativeUrlPath}respTimeGraph?lrTransact=${mainLrTransact}"/>
       		<h4>---</h4>
       	</div>
       	<div>
-      		<img src="${relativeUrlPath}errorRateGraph" alt="No Error Rate Graph Available : ${relativeUrlPath}errorRateGraph"/>
+      		<img src="${relativeUrlPath}errorRateGraph?lrTransact=${mainLrTransact}" alt="No Error Rate Graph Available : ${relativeUrlPath}errorRateGraph?lrTransact=${mainLrTransact}"/>
       	</div>
       </div>
 </j:jelly>

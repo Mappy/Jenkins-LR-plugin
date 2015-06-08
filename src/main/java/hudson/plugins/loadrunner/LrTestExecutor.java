@@ -1,11 +1,11 @@
 /**
  * LrTestLauncher.java
- * 
+ *
  * Encapsulates test execution + results parsing and provides instantiated classes
- * with LrTestLauncher/config.jelly and LrTestLauncher/global.jelly param values 
+ * with LrTestLauncher/config.jelly and LrTestLauncher/global.jelly param values
  *
  * @author Yann LE VAN
- * 
+ *
  */
 
 package hudson.plugins.loadrunner;
@@ -77,11 +77,10 @@ public class LrTestExecutor implements Action {
 	public String getUrlName() {
 		return null;
 	}
-
 	
 	
    /**
-	 *   Utils methods
+	 *   handy methods
 	 */
     private ArrayList<String> splitLrTransactionsList(String monitor_lr_transact_from_jelly) { 
     	ArrayList<String> list_transact_name = new ArrayList<String>();
@@ -203,7 +202,7 @@ public class LrTestExecutor implements Action {
     		while (out_kill_wlrun != null) {
 			   		out_kill_wlrun = kill_wlrun_StrmRead.readLine();
 			   		Thread.sleep(taskill_timeout_ms);
-			   		//if (out_wlrun != null) {
+			   	//	if (out_wlrun != null) {
  			   			listener.getLogger().println("### taskkill_wlrun command line output : " + out_kill_wlrun);
  			   	//	}
 			   	//	else {
@@ -291,15 +290,13 @@ public class LrTestExecutor implements Action {
 				}
 		    	listener.getLogger().println("============================ TEST RUN COMPLETED ============================\n\n\n");
 
-
 		    	/*
 		    	 * Blind management of AnalysisUI.exe timeout
 		    	 */
 		    	cpt_time_ms = 0;
 				//while (cpt_time_ms < 1000*Integer.valueOf(lrAnalysisTimeout)) {
 
-	    	
-
+		    	
  			   	/*
  			   	 * WAIT FOR LRA results directory to be created
  			   	 */
@@ -318,8 +315,6 @@ public class LrTestExecutor implements Action {
 						Thread.sleep(3000);
 						break;
 					}
-					
-
 		   		}
 		   		
 				Long right_now = System.currentTimeMillis();
@@ -345,7 +340,6 @@ public class LrTestExecutor implements Action {
 						Thread.sleep(3000);
 						break;
 		   			}
-
 		   		}
 				listener.getLogger().println(" ## Generation of " + lraFileName + " report is complete");
 
@@ -415,20 +409,9 @@ public class LrTestExecutor implements Action {
     		return false;
     	};
 
-    	
     	listener.getLogger().println("====================== LR RESULTS GENERATION COMPLETED =====================\n\n\n");
     	
     	return true;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
 }

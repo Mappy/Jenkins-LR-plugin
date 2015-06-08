@@ -1,15 +1,15 @@
 /**
  * LrTestLauncher.java
- * 
- * Encapsulates test execution / results parsing and provides dedicated classes
- * with LrTestLauncher/config.jelly and LrTestLauncher/global.jelly param values 
  *
- * @author Yann LE VAN 
- * 
+ * Encapsulates test execution / results parsing and provides dedicated classes
+ * with LrTestLauncher/config.jelly and LrTestLauncher/global.jelly param values
+ *
+ * @author Yann LE VAN
+ *
  */
 
-package hudson.plugins.loadrunner;
 
+package hudson.plugins.loadrunner;
 
 import hudson.EnvVars;
 import hudson.Extension;
@@ -19,39 +19,31 @@ import hudson.model.AbstractProject;
 import hudson.model.BuildListener;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
-
 import java.io.File;
 import java.io.IOException;
-
 import javax.servlet.ServletException;
-
 import net.sf.json.JSONObject;
-
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 
-//import MappyJenkinsPerfBuilder.DescriptorImpl;
-
-import hudson.plugins.devloadrunner.results.LrResultTable;
+import hudson.plugins.loadrunner.results.LrResultTable;
 
 
 
 
 public class LrTestLauncher extends Builder {
+
     private String lrsFile;
     private String lrExecTimeout;
     private String lrAnalysisTimeout;
-    //private final String monitorLrTransacts;
     private String lraFileName;
 	
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
 	@DataBoundConstructor
-	public LrTestLauncher(String lrsFile, String lrExecTimeout, String lrAnalysisTimeout,/*String monitorLrTransacts,*/ String lraFileName) {
-
+	public LrTestLauncher(String lrsFile, String lrExecTimeout, String lrAnalysisTimeout, String lraFileName) {
 	    this.lrsFile = lrsFile;
 	    this.lrExecTimeout = lrExecTimeout;
 	    this.lrAnalysisTimeout = lrAnalysisTimeout;
-	    //this.monitorLrTransacts = monitorLrTransacts;
 	    this.lraFileName = lraFileName;
 	}
 	
@@ -91,8 +83,6 @@ public class LrTestLauncher extends Builder {
 	public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener)
 			 throws InterruptedException, IOException {
 
-
-
     	EnvVars envVars = new EnvVars();
     	envVars = build.getEnvironment(listener);
     	
@@ -120,19 +110,24 @@ public class LrTestLauncher extends Builder {
 		LrTestExecutor lr_test_exec = new LrTestExecutor(build, listener, getDescriptor().getPathToWlrun() , lrsFile, lraFileName, lrExecTimeout, lrAnalysisTimeout);
 		try {
 			if (lr_test_exec.RunTest(job_builds_dir, build_id)) {
+
 				/**
 				 * Building the path to the .asc file to be parsed 
 				 */
 				File targetLraDir = new File(job_builds_dir + build_id + "/" + lraFileName + "/");
 			   	File pathToAsc = new File(targetLraDir + "\\LRA.asc");
-
-			   	
+    	
 				/**
 				 * Parsing ALL the results from the .asc file and adding the LrResultTable Action to the build
 				 */
 			    LRAparser lra_parser = new LRAparser(build, listener, pathToAsc);
 			    LrResultTable RunResults = lra_parser.parseAllResults();
 			    build.addAction(RunResults);
+
+				/**
+				 * Graph ALL transactions in List monitorLrTransacts 
+				 */    	
+				AbstractProject<?,?> project = build.getProject(); 
 
 			}
 		} catch (ServletException e) {
@@ -162,12 +157,8 @@ public class LrTestLauncher extends Builder {
         private String pathToWlrun;
         private String lrsFile;
         private String lrExecTimeout;
-        //private String monitorLrTransacts;
         private String lraFileName;
         
-
-        
-
         /**
          * In order to load the persisted global configuration, you have to 
          * call load() in the constructor.
@@ -194,7 +185,6 @@ public class LrTestLauncher extends Builder {
             // To persist global configuration information,
             // set that to properties and call save().
         	pathToWlrun = formData.getString("pathToWlrun");
-
         	
             // Can also use req.bindJSON(this, formData);
             // (easier when there are many fields; need set* methods for this, like setPathToWlrun)

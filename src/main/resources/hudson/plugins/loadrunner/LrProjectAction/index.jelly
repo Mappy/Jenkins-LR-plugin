@@ -5,18 +5,23 @@
        <l:main-panel>
            <h1>${it.displayName}</h1>
            <j:if test="${it.graphActive}">
-               <h3>project : ${it.project}</h3>
-               <h3>graphName : ${it.graphName}</h3>
-               <!-- <h4>it.fakeReturn : ${it.fakeReturn}</h4> -->
-               <!-- <h4>from.fakeReturn : ${from.fakeReturn}</h4> -->
-               <!-- <h4>from.getFakeReturn() : ${from.getFakeReturn()}</h4> -->
-               <!-- <h4>it.getFakeReturn() : ${it.getFakeReturn()}</h4> -->
-               <h4>it.graph : ${it.graph}</h4>
-               <br/>
-               <j:set var="graphUrl" value="${it.respTimeGraph}" />
-               <!-- <img src="${urlName}/${it.getGraph('/doTheGraph','/avgRespTimeGraph')}" /> -->
-               <br/>
-               <img src="${it.respTimeGraph}" />
+      			<j:forEach var="transactName" items="${it.LrTransactList}">
+					<div width="1000">
+					<table cellspacing="2px" rules="none" frame="void">
+		      			<tr>
+		      				<td>
+		      					<img src="${relativeUrlPath}respTimeGraph?lrTransact=${transactName}" alt="No Response Time Graph Available : ${relativeUrlPath}respTimeGraph?lrTransact=${transactName}" width="95%"/>
+		      				</td>
+		      				<td>
+		      					<img src="${relativeUrlPath}errorRateGraph?lrTransact=${transactName}" alt="No Error Rate Graph Available : ${relativeUrlPath}errorRateGraph?lrTransact=${transactName}" width="95%"/>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2"/>
+						</tr>
+					</table>	
+					</div>
+				</j:forEach>
            </j:if>
        </l:main-panel>
    </l:layout>

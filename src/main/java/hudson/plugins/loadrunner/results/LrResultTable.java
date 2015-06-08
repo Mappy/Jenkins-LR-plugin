@@ -1,13 +1,14 @@
 /**
  * LrResultTable.java
- * 
+ *
  * Data model : class storing the results for a LR test run.
  * Each transaction line from the summary is stored
- * in a LrTransactionStats.java class 
+ * in a LrTransactionStats.java class
  *
  * @author Yann LE VAN
- * 
+ *
  */
+
 
 package hudson.plugins.loadrunner.results;
 

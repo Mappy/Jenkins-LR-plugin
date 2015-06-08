@@ -1,21 +1,19 @@
 /**
  * LrProjectAction.java
- * 
- * Builds graphs datasets and provides graphs to LrProjectAction/floatingbox.jelly and LrProjectAction/index.jelly
  *
- * @author Yann LE VAN 
- * 
+ * Builds graphs datasets and provides graphs to
+ * LrProjectAction/floatingbox.jelly and
+ * LrProjectAction/index.jelly
+ *
+ * @author Yann LE VAN
+ *
  */
-
-
 
 package hudson.plugins.loadrunner;
 
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-
 
 import hudson.model.AbstractBuild;
 import hudson.model.Action;
@@ -24,19 +22,12 @@ import hudson.model.ProminentProjectAction;
 import hudson.model.AbstractProject;
 import hudson.util.ChartUtil;
 
-
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.graphics2d.svg.*;
-
-
-
-
-
 
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
@@ -118,9 +109,7 @@ public class LrProjectAction implements Action, ProminentProjectAction {
 	   return LrResultTable.class;
 	}
 
-
    
-  
    
    /**
     * Generates the graph that shows Response Times Performance Indicators for a given transaction
@@ -143,7 +132,6 @@ public class LrProjectAction implements Action, ProminentProjectAction {
 	            false // urls
 	            );
     Plot plot = respTimeChart.getPlot();
-    //plot.setSeriesRenderingOrder(SeriesRenderingOrder.REVERSE);
     
 	ChartUtil.generateGraph(req, rsp, respTimeChart ,getGraphWidth(), getGraphHeight());
 	
@@ -170,7 +158,6 @@ public class LrProjectAction implements Action, ProminentProjectAction {
 	            false // urls
 	            );
     
-  
 	ChartUtil.generateGraph(req, rsp, errorRateChart ,getGraphWidth(), getGraphHeight());
 	
    }
@@ -182,11 +169,11 @@ public class LrProjectAction implements Action, ProminentProjectAction {
     * @throws IOException - InterruptedException
     */
    public DefaultCategoryDataset buildRespTimeDataset(String lrTransact) throws IOException, InterruptedException {
-	//int runid = getProject().getLastCompletedBuild().number;
+
 	final DefaultCategoryDataset buffer = new DefaultCategoryDataset();
 	final DefaultCategoryDataset graphDataset = new DefaultCategoryDataset();
-	
 	int idx = 0;
+
 	for (AbstractBuild<?, ?> build = getProject().getLastBuild(); build != null; build = build.getPreviousBuild()) {
 
 		LrResultTable action = build.getAction(LrResultTable.class);
@@ -203,8 +190,6 @@ public class LrProjectAction implements Action, ProminentProjectAction {
     		 */
     		buffer.addValue(getAvgRespTimeSLA(lrTransact)*1000, "Average SLA", Integer.toString(build.number));
     		buffer.addValue(getPctRespTimeSLA(lrTransact)*1000, "90th Percent SLA", Integer.toString(build.number));
-    		
-    		
     		++idx;
     	}
     	else {
@@ -235,10 +220,9 @@ public class LrProjectAction implements Action, ProminentProjectAction {
     * @throws IOException - InterruptedException
     */
    public DefaultCategoryDataset buildErrorRateDataset(String lrTransact) throws IOException, InterruptedException {
-	//int runid = getProject().getLastCompletedBuild().number;
+
 	final DefaultCategoryDataset buffer = new DefaultCategoryDataset();
 	final DefaultCategoryDataset errorRateDataset = new DefaultCategoryDataset();
-
 	int idx = 0;
 
 	for (AbstractBuild<?, ?> build = getProject().getLastBuild(); build != null; build = build.getPreviousBuild()) {
@@ -272,7 +256,6 @@ public class LrProjectAction implements Action, ProminentProjectAction {
 	return errorRateDataset;
     
    }
-   
    
    
    /**
