@@ -34,7 +34,7 @@ public class PluginImpl extends Plugin {
    public static final String LRT_ICON_FILE_NAME = null;
    
    
-   public static final String LTL_DISPLAY_NAME = "[DEV] LoadRunner plugin configuration";
-   public static final String LBWD_CONFIG_DISPLAY_NAME = "[DEV LoadRunner] Publish LR results and display performance graphs over builds";
+   public static final String LTL_DISPLAY_NAME = "LoadRunner plugin configuration";
+   public static final String LBWD_CONFIG_DISPLAY_NAME = "Publish LR results and display performance graphs over builds";
    
 }
