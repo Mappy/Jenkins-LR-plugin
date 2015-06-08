@@ -1,3 +1,15 @@
+/**
+ * LrBuildWrapper.java
+ *
+ * Extends Jenkins' BuildWrapper to implement a pre-build step
+ * consisting in parsing the config form LrBuildWrapper/config.jelly
+ * and setting the LR transactions to be graphed post-build.
+ *
+ * @author Yann LE VAN
+ *
+ */
+
+
 package hudson.plugins.loadrunner;
 
 
@@ -23,8 +35,6 @@ public class LrBuildWrapper extends BuildWrapper {
 	
     @Override
     public Collection<? extends Action> getProjectActions(AbstractProject job) {
-    	//String[] trs = new String[] {monitorLrTransacts};
-    	//final LrProjectAction lpa = new LrProjectAction(job, null, monitorLrTransacts.split(",") ); //new String[] {monitorMainLrTransact});
     	final LrProjectAction lpa = new LrProjectAction(job, null, lrTransactsConfig);
     	return Arrays.asList(lpa);
     }
@@ -36,15 +46,7 @@ public class LrBuildWrapper extends BuildWrapper {
         return new Environment() {};
     }    
     
-/*
-    public String getExecTimeout() {
-        return lrExecTimeout;
-    }
 
-    public String getLrsFile() {
-    	return lrsFile;
-	}
-*/
     public String getMonitorLrTransacts() {
     	return monitorLrTransacts;
     }
@@ -60,9 +62,5 @@ public class LrBuildWrapper extends BuildWrapper {
     public void setLrTransactsConfig(ArrayList<LrRepeatableTransactionConfig> lrTransactsConfig) {
     	this.lrTransactsConfig = lrTransactsConfig;
     }
-/*
-    public String getLraFileName() {
-    	return lraFileName;
-    }
-*/
-	}
+
+}

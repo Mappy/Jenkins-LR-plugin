@@ -1,3 +1,14 @@
+/**
+ * LrRepeatableTransactionConfig.java
+ *
+ * Class instantiated to map each line of parameters
+ * within LrBuildWrapper/config.jelly
+ *
+ * @author Yann LE VAN
+ *
+ */
+
+
 package hudson.plugins.loadrunner;
 
 import hudson.Extension;

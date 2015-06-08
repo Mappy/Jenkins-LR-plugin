@@ -1,3 +1,14 @@
+/**
+ * LrTransactionStats.java
+ *
+ * Data model : class storing the results for a specific
+ * transaction name from a LR test run.
+ *
+ * @author Yann LE VAN
+ *
+ */
+
+
 package hudson.plugins.loadrunner.results;
 
 import java.util.HashMap;
@@ -11,11 +22,10 @@ public class LrTransactionStats {
 	private String transact_name;
 	private HashMap<String, Float> transact_stats = new HashMap<String, Float>();
 
-	//public LrTransactionStats(String transact_name, HashMap<String, Float> transact_stats) {
+	
 	public LrTransactionStats(String transact_name) {
       this.transact_name = transact_name;
-      //this.transact_stats = transact_stats;
-	}
+    }
 
 	public void addName(String name){
 		transact_name.concat(name);
