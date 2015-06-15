@@ -26,7 +26,7 @@ public class PluginImpl extends Plugin {
    public static final String LPA_NAME = "NAME";
    public static final String LPA_URL = "perfGraphs";
    public static final String LPA_ICON_FILE_NAME = "/plugin/loadrunner/icons/area_chart_128.png";
-   public static final int LPA_MAX_BUILDS_IN_GRAPHS = 15; 
+   public static final int LPA_MAX_BUILDS_IN_GRAPHS = 20; 
    
    public static final String LRT_DISPLAY_NAME = null;
    public static final String LRT_NAME = null;
