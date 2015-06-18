@@ -147,14 +147,27 @@ public class LrTestExecutor implements Action {
     	listener.getLogger().println("\ttempDir : " + temp_dir.toString());
     	listener.getLogger().println("\n\t## list tempDir : \n\t\t" + StringUtils.join(temp_dir.list(), "\n\t\t"));
     	
+    	
+
+    	/**
+    	 * Building the LR command line with given arguments 
+    	 */
+    	ArrayList<String> cmdline = new ArrayList<String>();
+    	cmdline.add(pathToWlrun + "\\wlrun");
+    	cmdline.add("-Run");
+    	cmdline.add("-TestPath");
+    	cmdline.add(lrsFile);
+    	cmdline.add("-ResultName");
+    	cmdline.add(job_builds_dir + build_id + "\\LRR");
+    	cmdline.add("-ResultLocation");
+    	cmdline.add(job_builds_dir + build_id);
+    	cmdline.add("-InvokeAnalysis");
+
+    	
     	/**
     	 * Building the Wlrun ProcessBuilder with desired command line options 
     	 */
-    	ProcessBuilder wlrun = new ProcessBuilder("\""  + pathToWlrun
-    													+ "\\wlrun\"", " -Run -TestPath " + lrsFile
-    													+ " -ResultName " + job_builds_dir + build_id + "\\LRR"
-    													+ " -ResultLocation " + job_builds_dir + build_id
-    													+ " -InvokeAnalysis");
+    	ProcessBuilder wlrun = new ProcessBuilder(cmdline);
     	/**
     	 * ProcessBuilder to kill any wlrun.exe running process on the host 
     	 */
