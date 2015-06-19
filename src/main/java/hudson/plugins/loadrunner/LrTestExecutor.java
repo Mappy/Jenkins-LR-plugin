@@ -258,7 +258,7 @@ public class LrTestExecutor implements Action {
 		    	 * Management of Wlrun.exe timeout
 		    	 */
     			dead_or_alive = p_wlrun.isAlive();
-    			while (dead_or_alive) {
+    			while (dead_or_alive && !temp_lra_dir.exists()) {
 	 			   		
 					//listener.getLogger().println("### cpt_time_ms : " + cpt_time_ms + " ## 1000*Integer.valueOf(lr_exec_timeout) : " + 1000*Integer.valueOf(lrExecTimeout));
 					if (cpt_time_ms < 1000*Integer.valueOf(lrExecTimeout)) {
