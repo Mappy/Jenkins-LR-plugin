@@ -324,6 +324,7 @@ public class LrTestExecutor implements Action {
 						listener.getLogger().println("\n### " + new Date(System.currentTimeMillis()) + " ## AnalysisUI.exe exceeded timeout\n" );
 				    	listener.getLogger().println("=========================== TEST ANALYSIS FAILED ===========================\n\n\n");
 						build.setResult(Result.FAILURE);
+						p_wlrun.destroy();
 						build.doStop();
 						Thread.sleep(3000);
 						break;
@@ -349,6 +350,7 @@ public class LrTestExecutor implements Action {
 						listener.getLogger().println("\n### " + new Date(System.currentTimeMillis()) + " ## AnalysisUI.exe exceeded timeout\n" );
 				    	listener.getLogger().println("=========================== TEST ANALYSIS FAILED ===========================\n\n\n");
 						build.setResult(Result.FAILURE);
+						p_wlrun.destroy();
 						build.doStop();
 						Thread.sleep(3000);
 						break;
@@ -371,6 +373,7 @@ public class LrTestExecutor implements Action {
 						listener.getLogger().println("\n### " + new Date(System.currentTimeMillis()) + " ## AnalysisUI.exe exceeded timeout\n" );
 				    	listener.getLogger().println("=========================== TEST ANALYSIS FAILED ===========================\n\n\n");
 						build.setResult(Result.FAILURE);
+						p_wlrun.destroy();
 						build.doStop();
 						Thread.sleep(3000);
 						break;
@@ -396,6 +399,7 @@ public class LrTestExecutor implements Action {
 						listener.getLogger().println("\n### " + new Date(System.currentTimeMillis()) + " ## AnalysisUI.exe exceeded timeout\n" );
 				    	listener.getLogger().println("=========================== TEST ANALYSIS FAILED ===========================\n\n\n");
 						build.setResult(Result.FAILURE);
+						p_wlrun.destroy();
 						build.doStop();
 						Thread.sleep(3000);
 						break;
@@ -408,6 +412,7 @@ public class LrTestExecutor implements Action {
 				 * MOVE LRA and HTML directories from TEMP to BUILD_ID location
 				 */
 				if (temp_lra_dir.renameTo(target_lra_dir) && temp_html_dir.renameTo(target_html_dir)) {
+					p_wlrun.destroy();
 					listener.getLogger().println(" ### Successfully moved " + lraFileName + " and HTML reports from : " + temp_dir + " to " + target_lra_dir + " and " + target_html_dir);
 				}
 //				}
