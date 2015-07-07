@@ -413,7 +413,11 @@ public class LrTestExecutor implements Action {
 				 */
 				if (temp_lra_dir.renameTo(target_lra_dir) && temp_html_dir.renameTo(target_html_dir)) {
 					p_wlrun.destroy();
+					Thread.sleep(3000);
 					listener.getLogger().println(" ### Successfully moved " + lraFileName + " and HTML reports from : " + temp_dir + " to " + target_lra_dir + " and " + target_html_dir);
+				}
+				else {
+					listener.getLogger().println(" ### ERROR : " + lraFileName + " or " + temp_dir + " could NOT be moved to " + target_lra_dir + " and " + target_html_dir);
 				}
 //				}
 			} catch (InterruptedException e1) {
